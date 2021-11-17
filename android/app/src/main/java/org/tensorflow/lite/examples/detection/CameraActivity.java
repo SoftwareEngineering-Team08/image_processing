@@ -403,7 +403,9 @@ public abstract class CameraActivity extends AppCompatActivity
 
         // We don't use a front facing camera in this sample.
         final Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-        if (facing != null && facing == CameraCharacteristics.LENS_FACING_FRONT) {
+        // 전면(LENS_FACING_FRONT), 후면(LENS_FACING_BACK) 카메라 설정
+        // 사용하지 않을 카메라 선택
+        if (facing != null && facing == CameraCharacteristics.LENS_FACING_BACK) {
           continue;
         }
 
