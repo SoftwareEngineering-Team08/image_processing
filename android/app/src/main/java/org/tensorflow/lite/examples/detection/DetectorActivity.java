@@ -26,10 +26,14 @@ import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Size;
 import android.util.TypedValue;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +85,12 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   private MultiBoxTracker tracker;
 
   private BorderedText borderedText;
+
+  @Override
+  protected void onCreate(@Nullable Bundle savedInstanceState){
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.tfe_od_activity_camera);
+  }
 
   @Override
   public void onPreviewSizeChosen(final Size size, final int rotation) {

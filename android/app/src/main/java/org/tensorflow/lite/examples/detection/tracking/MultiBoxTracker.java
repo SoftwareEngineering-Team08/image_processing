@@ -128,17 +128,17 @@ public class MultiBoxTracker {
   public synchronized void draw(final Canvas canvas) {
     final boolean rotated = sensorOrientation % 180 == 90;
     final float multiplier =
-        Math.min(
-            canvas.getHeight() / (float) (rotated ? frameWidth : frameHeight),
-            canvas.getWidth() / (float) (rotated ? frameHeight : frameWidth));
+            Math.min(
+                    canvas.getHeight() / (float) (rotated ? frameWidth : frameHeight),
+                    canvas.getWidth() / (float) (rotated ? frameHeight : frameWidth));
     frameToCanvasMatrix =
-        ImageUtils.getTransformationMatrix(
-            frameWidth,
-            frameHeight,
-            (int) (multiplier * (rotated ? frameHeight : frameWidth)),
-            (int) (multiplier * (rotated ? frameWidth : frameHeight)),
-            sensorOrientation,
-            false);
+            ImageUtils.getTransformationMatrix(
+                    frameWidth,
+                    frameHeight,
+                    (int) (multiplier * (rotated ? frameHeight : frameWidth)),
+                    (int) (multiplier * (rotated ? frameWidth : frameHeight)),
+                    sensorOrientation,
+                    false);
     for (final TrackedRecognition recognition : trackedObjects) {
       // modified
       if(recognition.title.equals("person") && recognition.detectionConfidence > 0.6){
@@ -154,10 +154,10 @@ public class MultiBoxTracker {
                 !TextUtils.isEmpty(recognition.title)
                         ? String.format("%s %.2f", recognition.title, (100 * recognition.detectionConfidence))
                         : String.format("%.2f", (100 * recognition.detectionConfidence));
-                    //borderedText.drawText(canvas, trackedPos.left + cornerSize, trackedPos.top, labelString);
+        //borderedText.drawText(canvas, trackedPos.left + cornerSize, trackedPos.top, labelString);
         final Pair<Float, Float> pair = new Pair<>(trackedPos.centerX(), trackedPos.centerY());
         borderedText.drawText(
-                canvas, trackedPos.left + cornerSize, trackedPos.top, labelString + "%", boxPaint);
+                canvas, trackedPos.left + cornerSize, trackedPos.top, "CenterX: " + trackedPos.centerX(), boxPaint);
       }
 
     }
