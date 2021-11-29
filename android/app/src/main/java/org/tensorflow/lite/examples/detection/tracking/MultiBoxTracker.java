@@ -140,8 +140,8 @@ public class MultiBoxTracker {
                     sensorOrientation,
                     false);
     for (final TrackedRecognition recognition : trackedObjects) {
-      // modified
-      if(recognition.title.equals("person") && recognition.detectionConfidence > 0.6){
+      // modified "people"
+      if(recognition.title.equals("cell phone") && recognition.detectionConfidence > 0.6){
         final RectF trackedPos = new RectF(recognition.location);
 
         getFrameToCanvasMatrix().mapRect(trackedPos);
@@ -157,9 +157,9 @@ public class MultiBoxTracker {
         //borderedText.drawText(canvas, trackedPos.left + cornerSize, trackedPos.top, labelString);
         final Pair<Float, Float> pair = new Pair<>(trackedPos.centerX(), trackedPos.centerY());
         borderedText.drawText(
-                canvas, trackedPos.left + cornerSize, trackedPos.top, "CenterX: " + trackedPos.centerX(), boxPaint);
+                canvas, trackedPos.left + cornerSize, trackedPos.top, "CenterX: " + trackedPos.centerX(), boxPaint
+        );
       }
-
     }
   }
 

@@ -396,6 +396,7 @@ public abstract class CameraActivity extends AppCompatActivity
   }
 
   private String chooseCamera() {
+    ImageProcessor imageProcessor = (ImageProcessor) getApplication();
     final CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
     try {
       for (final String cameraId : manager.getCameraIdList()) {
@@ -403,9 +404,18 @@ public abstract class CameraActivity extends AppCompatActivity
 
         // We don't use a front facing camera in this sample.
         final Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-        // 전면(LENS_FACING_FRONT), 후면(LENS_FACING_BACK) 카메라 설정
+        
+        // 전면(LENS_FACING_FRONT = 0), 후면(LENS_FACING_BACK = 1) 카메라 설정
+        final Integer chosenCamera;
+        if(imageProcessor.getIsBack()){
+          chosenCamera = 0;
+        }
+        else{
+          chosenCamera = 1;
+        }
+
         // 사용하지 않을 카메라 선택
-        if (facing != null && facing == CameraCharacteristics.LENS_FACING_BACK) {
+        if (facing != null && facing == chosenCamera) {
           continue;
         }
 
