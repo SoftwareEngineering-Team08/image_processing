@@ -1,4 +1,4 @@
-package org.tensorflow.lite.examples.detection;
+package org.tensorflow.lite.examples.detection.imageProcessor;
 
 import android.app.Application;
 

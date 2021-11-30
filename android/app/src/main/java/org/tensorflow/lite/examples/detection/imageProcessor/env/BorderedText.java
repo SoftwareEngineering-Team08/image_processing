@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-package org.tensorflow.lite.examples.detection.env;
+package org.tensorflow.lite.examples.detection.imageProcessor.env;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -22,7 +22,6 @@ import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.util.Pair;
 
 import java.util.Vector;
 

@@ -1,4 +1,4 @@
-package org.tensorflow.lite.examples.detection;
+package org.tensorflow.lite.examples.detection.imageProcessor;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.tensorflow.lite.examples.detection.R;
 
 public class IPActivity extends AppCompatActivity {
 

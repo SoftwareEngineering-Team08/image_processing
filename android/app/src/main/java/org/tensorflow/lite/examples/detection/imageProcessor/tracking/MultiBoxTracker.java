@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-package org.tensorflow.lite.examples.detection.tracking;
+package org.tensorflow.lite.examples.detection.imageProcessor.tracking;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -31,11 +31,10 @@ import android.util.TypedValue;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Arrays;
 import java.util.Queue;
-import org.tensorflow.lite.examples.detection.env.BorderedText;
-import org.tensorflow.lite.examples.detection.env.ImageUtils;
-import org.tensorflow.lite.examples.detection.env.Logger;
+import org.tensorflow.lite.examples.detection.imageProcessor.env.BorderedText;
+import org.tensorflow.lite.examples.detection.imageProcessor.env.ImageUtils;
+import org.tensorflow.lite.examples.detection.imageProcessor.env.Logger;
 import org.tensorflow.lite.examples.detection.tflite.Detector.Recognition;
 
 

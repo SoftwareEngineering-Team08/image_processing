@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.tensorflow.lite.examples.detection">
 
     <uses-sdk />
@@ -9,22 +10,49 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
-        android:name=".ImageProcessor"
-        android:allowBackup="false"
-        android:label="Image Processor"
+        android:name=".imageProcessor.ImageProcessor"
+        android:allowBackup="true"
+        android:label="Corona Counter"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.ObjectDetection">
 
         <activity
-            android:name=".IPActivity"
-            android:label="Image Processor"
-            android:screenOrientation="portrait">
+            android:name="com.example.coronacounter.MainActivity"
+            android:label="Corona Counter"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetectorActivity"/>
+
+        <activity
+            android:name="com.example.coronacounter.EditStore"
+            android:exported="true"
+            tools:ignore="Instantiatable" />
+
+        <activity
+            android:name="com.example.coronacounter.StatisticActivity"
+            android:exported="true"
+            tools:ignore="Instantiatable" />
+        <activity
+            android:name="com.example.coronacounter.PersonCount2"
+            android:exported="true"
+            tools:ignore="Instantiatable" />
+        <activity
+            android:name="com.example.coronacounter.PersonCount1"
+            android:exported="true"
+            tools:ignore="Instantiatable" />
+
+        <activity android:name=".imageProcessor.IPActivity"
+            android:exported="true"
+            tools:ignore="Instantiatable" />
+        <activity android:name=".imageProcessor.DetectorActivity"
+            android:exported="true"
+            tools:ignore="Instantiatable" />
+
 
     </application>
 </manifest>

@@ -1,12 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'de.undercouch.download'
+apply plugin: 'kotlin-android'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
-        applicationId "org.tensorflow.lite.examples.detection"
+        applicationId "org.tensorflow.lite.examples.coronaCounter"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
@@ -18,12 +20,24 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    buildFeatures{
+        dataBinding true
+    }
+    sourceSets{
+        main.java.srcDirs += 'src/main/kotlin'
+    }
     aaptOptions {
         noCompress "tflite"
     }
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
+    }
+    viewBinding {
+        enabled = true
+    }
+    kotlinOptions{
+        jvmTarget = '1.8'
     }
     lintOptions {
         abortOnError false
@@ -63,4 +77,14 @@ dependencies {
     androidTestImplementation 'com.google.truth:truth:1.0.1'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.1.0'
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+
 }

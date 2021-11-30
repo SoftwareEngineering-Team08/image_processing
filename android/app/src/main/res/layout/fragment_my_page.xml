@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    tools:context="com.example.coronacounter.view.MyPage">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        app:layoutManager="LinearLayoutManager"
+        android:scrollbars="vertical"
+        android:id="@+id/user_shop_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>

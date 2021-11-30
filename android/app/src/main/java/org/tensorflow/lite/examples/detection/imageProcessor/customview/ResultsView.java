@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-package org.tensorflow.lite.examples.detection.customview;
+package org.tensorflow.lite.examples.detection.imageProcessor.customview;
 
 import java.util.List;
 import org.tensorflow.lite.examples.detection.tflite.Detector.Recognition;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.tensorflow.lite.examples.detection;
+package org.tensorflow.lite.examples.detection.imageProcessor;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -37,14 +37,16 @@ import androidx.annotation.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.tensorflow.lite.examples.detection.customview.OverlayView;
-import org.tensorflow.lite.examples.detection.customview.OverlayView.DrawCallback;
-import org.tensorflow.lite.examples.detection.env.BorderedText;
-import org.tensorflow.lite.examples.detection.env.ImageUtils;
-import org.tensorflow.lite.examples.detection.env.Logger;
+
+import org.tensorflow.lite.examples.detection.R;
+import org.tensorflow.lite.examples.detection.imageProcessor.customview.OverlayView;
+import org.tensorflow.lite.examples.detection.imageProcessor.customview.OverlayView.DrawCallback;
+import org.tensorflow.lite.examples.detection.imageProcessor.env.BorderedText;
+import org.tensorflow.lite.examples.detection.imageProcessor.env.ImageUtils;
+import org.tensorflow.lite.examples.detection.imageProcessor.env.Logger;
 import org.tensorflow.lite.examples.detection.tflite.Detector;
 import org.tensorflow.lite.examples.detection.tflite.TFLiteObjectDetectionAPIModel;
-import org.tensorflow.lite.examples.detection.tracking.MultiBoxTracker;
+import org.tensorflow.lite.examples.detection.imageProcessor.tracking.MultiBoxTracker;
 
 /**
  * An activity that uses a TensorFlowMultiBoxDetector and ObjectTracker to detect and then track

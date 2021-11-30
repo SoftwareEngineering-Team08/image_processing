@@ -40,7 +40,7 @@
 //import org.junit.Before;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
-//import org.tensorflow.lite.examples.detection.env.ImageUtils;
+//import org.tensorflow.lite.examples.detection.imageProcessor.env.ImageUtils;
 //import org.tensorflow.lite.examples.detection.tflite.Detector;
 //import org.tensorflow.lite.examples.detection.tflite.Detector.Recognition;
 //import org.tensorflow.lite.examples.detection.tflite.TFLiteObjectDetectionAPIModel;
