@@ -41,5 +41,18 @@
         android:id="@+id/myPage"
         android:name="com.example.coronacounter.view.MyPage"
         android:label="fragment_my_page"
-        tools:layout="@layout/fragment_my_page" />
+        tools:layout="@layout/fragment_my_page" >
+        <action
+            android:id="@+id/action_myPage_to_editStore"
+            app:destination="@id/editStore" />
+    </fragment>
+    <fragment
+        android:id="@+id/editStore"
+        android:name="org.tensorflow.lite.examples.detection.coronaCounter.view.EditStore"
+        android:label="fragment_edit_store"
+        tools:layout="@layout/fragment_edit_store" >
+        <argument
+            android:name="shop"
+            app:argType="com.example.coronacounter.model.Shop" />
+    </fragment>
 </navigation>

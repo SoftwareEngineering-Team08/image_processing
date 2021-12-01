@@ -14,6 +14,7 @@ class AppViewModel:ViewModel() {
     val auth = Authenticator
     val userdata  = Datas.userdatabase
     val shopdata  =  Datas.shops
+
     fun userLogin(user:User) : Boolean {
         if (auth.checkVal(user,userdata)){
             _user = user
