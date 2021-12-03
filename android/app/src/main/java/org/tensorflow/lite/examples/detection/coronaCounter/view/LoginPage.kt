@@ -13,7 +13,13 @@ import androidx.navigation.findNavController
 import com.example.coronacounter.model.Authenticator
 import com.example.coronacounter.model.User
 import com.example.coronacounter.viewModel.AppViewModel
+import kotlinx.coroutines.*
+import kotlinx.coroutines.android.awaitFrame
+import org.tensorflow.lite.examples.detection.coronaCounter.api.Api
+import org.tensorflow.lite.examples.detection.coronaCounter.api.RetrofitInstance
+import org.tensorflow.lite.examples.detection.coronaCounter.model.UserData
 import org.tensorflow.lite.examples.detection.databinding.FragmentLoginPageBinding
+import kotlin.coroutines.CoroutineContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +32,7 @@ private const val TAG = "LoginPageFragment"
  * Use the [LoginPage.newInstance] factory method to
  * create an instance of this fragment.
  */
-class LoginPage : Fragment() {
+class LoginPage : Fragment(), CoroutineScope {
     private var _binding: FragmentLoginPageBinding? = null
     private val binding get() = _binding!!
 
@@ -37,9 +43,16 @@ class LoginPage : Fragment() {
 
     private val sharedViewModel: AppViewModel by activityViewModels()
 
+    lateinit var retIn : Api
+    lateinit var job: Job
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        retIn = RetrofitInstance.getRetrofitInstance().create(Api::class.java)
+        job = Job()
     }
 
 
@@ -64,7 +77,24 @@ class LoginPage : Fragment() {
             // do sign in logic
             Log.d(TAG,"sign in clicked")
             val user = User(userName.text.toString(),userPassword.text.toString())
-            if (sharedViewModel.userLogin(user)){
+            var userData = UserData(0,user.id,user.password,"")
+
+            var valid = false
+
+            val job = launch(Dispatchers.IO) {
+                valid = sharedViewModel.signup(userData,retIn)
+            }
+
+            while (!job.isCompleted) {
+                GlobalScope.launch {
+                    delay(1000)
+                    if (job.isCancelled){
+                        Log.d(TAG,"network error")
+                    }
+                }
+            }
+
+            if (valid){
                 val action = LoginPageDirections.actionLoginPageToMainMenu()
                 view.findNavController().navigate(action)
                 Log.d(TAG,"${user.id} logged in")
@@ -83,13 +113,15 @@ class LoginPage : Fragment() {
 
     }
 
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()    // 좀비 쓰레드
+    }
 
     companion object {
         /**
