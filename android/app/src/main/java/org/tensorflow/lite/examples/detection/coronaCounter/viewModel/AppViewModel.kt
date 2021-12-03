@@ -43,14 +43,6 @@ class AppViewModel:ViewModel(){
         }
     }
 
-//    suspend fun signup(user: UserData, retIn: Api):UserData? {
-//        val a = retIn.authentication(user)
-//        if (a.isSuccessful)
-//            return a.body()
-//        else
-//            return null
-//    }
-
     fun isNewUser(id:String) : Boolean {
         return auth.isNewId(id,userdata)
     }
