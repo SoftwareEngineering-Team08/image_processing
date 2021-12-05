@@ -1,5 +1,7 @@
 package org.tensorflow.lite.examples.detection.coronaCounter.api
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.tensorflow.lite.examples.detection.coronaCounter.model.UserData
@@ -17,24 +19,25 @@ interface Api {
     : Response<UserData>
 }
 
-class RetrofitInstance {
-    companion object {
-        // 안드로이드는 클라이언트 ip가 다름.
-        val BASE_URL: String = "http://10.0.2.2:8080/"
+object RetrofitInstance {
+    // 안드로이드는 클라이언트 ip가 다름.
+//    val BASE_URL: String = "http://10.0.2.2:8080/"
+    val BASE_URL: String = "http://3.13.129.81:8080/"
 
-        val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
-            this.level = HttpLoggingInterceptor.Level.BODY
-        }
+    val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
+        this.level = HttpLoggingInterceptor.Level.BODY
+    }
 
-        val client: OkHttpClient = OkHttpClient.Builder().apply {
-            this.addInterceptor(interceptor)
-        }.build()
-        fun getRetrofitInstance(): Retrofit {
-            return Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        }
+    val client: OkHttpClient = OkHttpClient.Builder().apply {
+        this.addInterceptor(interceptor)
+    }.build()
+
+    val instance: Retrofit by lazy {
+        val gson: Gson = GsonBuilder().setLenient().create()
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
     }
 }

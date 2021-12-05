@@ -6,7 +6,10 @@ import com.example.coronacounter.model.Authenticator
 import com.example.coronacounter.model.Datas
 import com.example.coronacounter.model.Shop
 import com.example.coronacounter.model.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.tensorflow.lite.examples.detection.coronaCounter.api.Api
+import org.tensorflow.lite.examples.detection.coronaCounter.api.RetrofitInstance
 import org.tensorflow.lite.examples.detection.coronaCounter.model.UserData
 
 class AppViewModel:ViewModel(){
@@ -16,6 +19,8 @@ class AppViewModel:ViewModel(){
     val auth = Authenticator
     val userdata  = Datas.userdatabase
     val shopdata  =  Datas.shops
+
+    private val loginApi = RetrofitInstance.instance.create(Api::class.java)
 
 //    fun userLogin(user:User) : Boolean {
 //        if (auth.checkVal(user,userdata)){
@@ -27,19 +32,21 @@ class AppViewModel:ViewModel(){
 //        }
 //    }
 
-    suspend fun signup(user: UserData, retIn: Api): Boolean {
-        val DBAccess = retIn.authentication(user)
-        if (DBAccess.isSuccessful){ // http code
-            val DBuserInfo = DBAccess.body()!!
-            if (auth.checkVal(user,DBuserInfo)){
-                _user = User(DBuserInfo.id!!,DBuserInfo.pw!!)
-                return true
+    suspend fun signup(user: UserData): Boolean {
+        return withContext(Dispatchers.IO){
+            val DBAccess = loginApi.authentication(user)
+            if (DBAccess.isSuccessful){ // http code
+                val DBuserInfo = DBAccess.body()!!
+                if (auth.checkVal(user,DBuserInfo)){
+                    _user = User(DBuserInfo.id!!,DBuserInfo.pw!!)
+                    true
+                }
+                else    // password error
+                    false
+            } else{     // network error
+                Log.d("AppViewModel","network error")
+                false
             }
-            else    // password error
-                return false
-        } else{     // network error
-            Log.d("AppViewModel","network error")
-            return false
         }
     }
 

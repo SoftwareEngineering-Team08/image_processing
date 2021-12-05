@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.coronacounter.model.Authenticator
 import com.example.coronacounter.model.User
@@ -32,7 +33,7 @@ private const val TAG = "LoginPageFragment"
  * Use the [LoginPage.newInstance] factory method to
  * create an instance of this fragment.
  */
-class LoginPage : Fragment(), CoroutineScope {
+class LoginPage : Fragment() {
     private var _binding: FragmentLoginPageBinding? = null
     private val binding get() = _binding!!
 
@@ -43,15 +44,10 @@ class LoginPage : Fragment(), CoroutineScope {
 
     private val sharedViewModel: AppViewModel by activityViewModels()
 
-    lateinit var retIn : Api
     lateinit var job: Job
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retIn = RetrofitInstance.getRetrofitInstance().create(Api::class.java)
         job = Job()
     }
 
@@ -77,29 +73,18 @@ class LoginPage : Fragment(), CoroutineScope {
             // do sign in logic
             Log.d(TAG,"sign in clicked")
             val user = User(userName.text.toString(),userPassword.text.toString())
-            var userData = UserData(0,user.id,user.password,"")
+            val userData = UserData(0,user.id,user.password,"")
 
-            var valid = false
-
-            val job = launch(Dispatchers.IO) {
-                valid = sharedViewModel.signup(userData,retIn)
-            }
-
-            while (!job.isCompleted) {
-                GlobalScope.launch {
-                    delay(1000)
-                    if (job.isCancelled){
-                        Log.d(TAG,"network error")
-                    }
+            lifecycleScope.launch {
+                // Main
+                val valid = sharedViewModel.signup(userData)
+                if (valid){
+                    val action = LoginPageDirections.actionLoginPageToMainMenu()
+                    view.findNavController().navigate(action)
+                    Log.d(TAG,"${user.id} logged in")
+                }else{
+                    Log.d(TAG,"log in failed ${user.id}")
                 }
-            }
-
-            if (valid){
-                val action = LoginPageDirections.actionLoginPageToMainMenu()
-                view.findNavController().navigate(action)
-                Log.d(TAG,"${user.id} logged in")
-            }else{
-                Log.d(TAG,"log in failed ${user.id}")
             }
         }
 
@@ -108,9 +93,6 @@ class LoginPage : Fragment(), CoroutineScope {
             view.findNavController().navigate(action)
             Log.d(TAG,"sign up clicked")
         }
-
-
-
     }
 
     override fun onDestroyView() {
