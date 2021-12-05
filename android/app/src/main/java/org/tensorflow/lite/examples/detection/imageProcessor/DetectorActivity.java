@@ -25,6 +25,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -88,10 +89,19 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
   private BorderedText borderedText;
 
+  private ImageProcessor imageProcessor = new ImageProcessor();
+
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState){
     super.onCreate(savedInstanceState);
     setContentView(R.layout.tfe_od_activity_camera);
+    // @@@ Need to Initialize Maximum & Limited @@@
+    imageProcessor.setMaximum(10);
+    imageProcessor.setLimited(4);
+    imageProcessor.setCurrent(0);
+    System.out.println(imageProcessor.getMaximum());
+    System.out.println(imageProcessor.getLimited());
+    System.out.println(imageProcessor.getCurrent());
   }
 
   @Override
@@ -164,7 +174,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     ++timestamp;
     final long currTimestamp = timestamp;
     trackingOverlay.postInvalidate();
-
     // No mutex needed as this method is not reentrant.
     if (computingDetection) {
       readyForNextImage();
@@ -237,6 +246,10 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                     showInference(lastProcessingTimeMs + "ms");
                   }
                 });
+            int detectedPos = tracker.draw(canvas);
+            if(detectedPos != 0){
+              System.out.println(detectedPos);
+            }
           }
         });
   }
