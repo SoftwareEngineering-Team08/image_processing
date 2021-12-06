@@ -11,16 +11,10 @@ import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import com.example.coronacounter.model.Authenticator
 import com.example.coronacounter.model.User
 import com.example.coronacounter.viewModel.AppViewModel
 import kotlinx.coroutines.*
-import kotlinx.coroutines.android.awaitFrame
-import org.tensorflow.lite.examples.detection.coronaCounter.api.Api
-import org.tensorflow.lite.examples.detection.coronaCounter.api.RetrofitInstance
-import org.tensorflow.lite.examples.detection.coronaCounter.model.UserData
 import org.tensorflow.lite.examples.detection.databinding.FragmentLoginPageBinding
-import kotlin.coroutines.CoroutineContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,8 +45,6 @@ class LoginPage : Fragment() {
         job = Job()
     }
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,12 +64,11 @@ class LoginPage : Fragment() {
         signInButton.setOnClickListener {
             // do sign in logic
             Log.d(TAG,"sign in clicked")
-            val user = User(userName.text.toString(),userPassword.text.toString())
-            val userData = UserData(0,user.id,user.password,"")
+            var user = User(userName.text.toString(),userPassword.text.toString(),"")
 
             lifecycleScope.launch {
                 // Main
-                val valid = sharedViewModel.signup(userData)
+                val valid = sharedViewModel.signin(user)
                 if (valid){
                     val action = LoginPageDirections.actionLoginPageToMainMenu()
                     view.findNavController().navigate(action)

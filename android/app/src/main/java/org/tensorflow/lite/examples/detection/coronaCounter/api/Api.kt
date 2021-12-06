@@ -1,10 +1,10 @@
 package org.tensorflow.lite.examples.detection.coronaCounter.api
 
+import com.example.coronacounter.model.User
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.tensorflow.lite.examples.detection.coronaCounter.model.UserData
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -15,8 +15,13 @@ import retrofit2.http.POST
 interface Api {
     @Headers("Content-Type:application/json")
     @POST("login")
-    suspend fun authentication(@Body user: UserData)
-    : Response<UserData>
+    suspend fun authentication(@Body user: User)
+    : Response<User>
+
+    @Headers("Content-Type:application/json")
+    @POST("distance-stage")
+    suspend fun getDistance(@Body rname: String)
+    : Response<Integer>
 }
 
 object RetrofitInstance {
