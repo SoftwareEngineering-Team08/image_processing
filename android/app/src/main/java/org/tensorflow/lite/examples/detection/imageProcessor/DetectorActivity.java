@@ -270,7 +270,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     TF_OD_API;
   }
 
-  @Override
+  @Override  
   protected void setUseNNAPI(final boolean isChecked) {
     runInBackground(
         () -> {
