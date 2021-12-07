@@ -41,7 +41,7 @@ class ShopItemAdapter(private val context: Context, private val dataset: List<Sh
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
         holder.textView.text = item.shopName
-        holder.imageView.setImageResource(matchBusinessTypeWithDrawanle(item.businessType))
+        holder.imageView.setImageResource(matchBusinessTypeWithDrawanle(item.businessType!!))
         holder.itemView.setOnClickListener(
             Navigation.createNavigateOnClickListener(MyPageDirections.actionMyPageToEditStore(shop = item))
         )
