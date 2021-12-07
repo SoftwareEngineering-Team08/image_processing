@@ -1,5 +1,6 @@
 package org.tensorflow.lite.examples.detection.coronaCounter.api
 
+import com.example.coronacounter.model.Shop
 import com.example.coronacounter.model.User
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -22,6 +23,14 @@ interface Api {
     @POST("distance-stage")
     suspend fun getDistance(@Body rname: String)
     : Response<Integer>
+
+    //TODO
+    //유저를 건네주면 그 유저가 가지고 있는
+    //상가들을 리스트형태로 받고 싶음.
+    @Headers("Content-Type:application/json")
+    @POST("distance-stage")
+    suspend fun getShopLists(@Body user: User)
+            : Response<List<Shop>>
 }
 
 object RetrofitInstance {

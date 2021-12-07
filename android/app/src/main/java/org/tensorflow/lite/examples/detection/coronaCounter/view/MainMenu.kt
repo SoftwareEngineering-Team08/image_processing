@@ -10,11 +10,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import org.tensorflow.lite.examples.detection.databinding.FragmentLoginPageBinding
 import org.tensorflow.lite.examples.detection.databinding.FragmentMainMenuBinding
 import com.example.coronacounter.model.User
 import com.example.coronacounter.viewModel.AppViewModel
+import kotlinx.coroutines.launch
 import org.tensorflow.lite.examples.detection.imageProcessor.IPActivity
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,7 +30,7 @@ import org.tensorflow.lite.examples.detection.imageProcessor.IPActivity
  */
 private const val TAG = "MainMenuFragment"
 class MainMenu : Fragment() {
-    private lateinit var user: User
+
     private var _binding: FragmentMainMenuBinding? = null
     private val binding get() = _binding!!
 
@@ -65,6 +67,9 @@ class MainMenu : Fragment() {
 
         toMyPageButton = binding.myPageButton
         toMyPageButton.setOnClickListener {
+            lifecycleScope.launch{
+                sharedViewModel.fetchShops()
+            }
             val action = MainMenuDirections.actionMainMenuToMyPage()
             view.findNavController().navigate(action)
             Log.d(TAG,"to myPage button clicked")

@@ -1,19 +1,28 @@
 package com.example.coronacounter.viewModel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.coronacounter.model.Authenticator
 import com.example.coronacounter.model.Datas
 import com.example.coronacounter.model.Shop
 import com.example.coronacounter.model.User
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.tensorflow.lite.examples.detection.coronaCounter.api.Api
 import org.tensorflow.lite.examples.detection.coronaCounter.api.RetrofitInstance
+private const val TAG = "AppViewModel"
 
 class AppViewModel:ViewModel(){
-    private lateinit var _user : User
-    val user: User get() = _user
+    private val _user = MutableLiveData<User>()
+    val user: LiveData<User> get() = _user
+
+    private val _shops = MutableLiveData<List<Shop>>()
+    val shops: LiveData<List<Shop>> get() = _shops
 
     val auth = Authenticator
     val userdata  = Datas.userdatabase
@@ -21,6 +30,8 @@ class AppViewModel:ViewModel(){
 
     private val loginApi = RetrofitInstance.instance.create(Api::class.java)
 
+
+    // 유저를 세팅하고, 결과를 알려주는 함수
     suspend fun signin(user: User): Boolean {
         return withContext(Dispatchers.IO){
             val DBAccess = loginApi.authentication(user)
@@ -31,12 +42,11 @@ class AppViewModel:ViewModel(){
                 } else if (DBuserInfo.pw.equals("password wrong")){
                     false
                 } else {
-                    _user = DBuserInfo
-                    user.oname = DBuserInfo.oname
+                    _user.postValue(DBuserInfo)
                     true
                 }
             } else{     // network error
-                Log.d("AppViewModel","network error")
+                Log.d(TAG,"network error")
                 false
             }
         }
@@ -61,8 +71,16 @@ class AppViewModel:ViewModel(){
         userdata[user.id!!] = user.pw!!
     }
 
-    fun getShops(user:User) : List<Shop> {
-        return shopdata[user.id] ?: listOf<Shop>()
+    //샵 리스트를 업데이트 하는 함수
+    suspend fun fetchShops() {
+        Log.d(TAG,"fetch shops")
+        withContext(Dispatchers.IO) {
+            //TODO 데이터베이스에 접속
+            //아래 다 지우고 작성
+            delay(100)
+            _shops.postValue(shopdata[user.value?.id] ?: listOf<Shop>())
+        }
     }
+
 
 }

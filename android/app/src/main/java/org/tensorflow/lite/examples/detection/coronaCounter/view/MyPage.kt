@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import org.tensorflow.lite.R
 import com.example.coronacounter.adapter.ShopItemAdapter
 import org.tensorflow.lite.examples.detection.databinding.FragmentLoginPageBinding
 import org.tensorflow.lite.examples.detection.databinding.FragmentMyPageBinding
 import com.example.coronacounter.viewModel.AppViewModel
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +28,7 @@ import com.example.coronacounter.viewModel.AppViewModel
 
 private const val TAG = "MyPageFragment"
 class MyPage : Fragment() {
-    // TODO: Rename and change types of parameters
+    // view binding
     private var _binding: FragmentMyPageBinding? = null
     private val binding get() = _binding!!
     private var _context : Context? = null
@@ -55,8 +57,12 @@ class MyPage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val recyclerView:RecyclerView = binding.userShopList
-        recyclerView.adapter = ShopItemAdapter(mycontext, sharedViewModel.getShops(sharedViewModel.user))
+
         recyclerView.setHasFixedSize(true)
+        sharedViewModel.shops.observe(viewLifecycleOwner,
+            { shops ->
+                    recyclerView.adapter = ShopItemAdapter(mycontext, shops)
+            })
 
     }
     override fun onDestroyView() {
@@ -78,7 +84,6 @@ class MyPage : Fragment() {
         fun newInstance(param1: String, param2: String) =
             MyPage().apply {
                 arguments = Bundle().apply {
-
                 }
             }
     }
