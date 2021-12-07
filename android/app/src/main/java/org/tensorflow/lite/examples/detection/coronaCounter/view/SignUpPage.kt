@@ -77,7 +77,7 @@ class SignUpPage : Fragment() {
             val action = SignUpPageDirections.actionSignUpPageToLoginPage()
             if (isNewUser){
                 Log.d(TAG,"new User added")
-                val user = User(userName.text.toString(),userPassword.text.toString())
+                val user = User(userName.text.toString(),userPassword.text.toString(),"")
                 sharedViewModel.addUser(user)
                 view.findNavController().navigate(action)
             }

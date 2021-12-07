@@ -10,7 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.tensorflow.lite.examples.detection.coronaCounter.api.Api
 import org.tensorflow.lite.examples.detection.coronaCounter.api.RetrofitInstance
-import org.tensorflow.lite.examples.detection.coronaCounter.model.UserData
 
 class AppViewModel:ViewModel(){
     private lateinit var _user : User
@@ -22,31 +21,34 @@ class AppViewModel:ViewModel(){
 
     private val loginApi = RetrofitInstance.instance.create(Api::class.java)
 
-//    fun userLogin(user:User) : Boolean {
-//        if (auth.checkVal(user,userdata)){
-//            _user = user
-//            return true
-//        }
-//        else{
-//            return false
-//        }
-//    }
-
-    suspend fun signup(user: UserData): Boolean {
+    suspend fun signin(user: User): Boolean {
         return withContext(Dispatchers.IO){
             val DBAccess = loginApi.authentication(user)
             if (DBAccess.isSuccessful){ // http code
                 val DBuserInfo = DBAccess.body()!!
-                if (auth.checkVal(user,DBuserInfo)){
-                    _user = User(DBuserInfo.id!!,DBuserInfo.pw!!)
+                if (DBuserInfo.id.equals("id invalid")){
+                    false
+                } else if (DBuserInfo.pw.equals("password wrong")){
+                    false
+                } else {
+                    _user = DBuserInfo
+                    user.oname = DBuserInfo.oname
                     true
                 }
-                else    // password error
-                    false
             } else{     // network error
                 Log.d("AppViewModel","network error")
                 false
             }
+        }
+    }
+
+    suspend fun getDistance(rname: String): Integer{
+        return withContext(Dispatchers.IO){
+            val DBAccess = loginApi.getDistance(rname)
+            if (DBAccess.isSuccessful){
+                DBAccess.body()!!
+            }
+            DBAccess.body()!!
         }
     }
 
@@ -56,7 +58,7 @@ class AppViewModel:ViewModel(){
 
     fun addUser(user:User){
 
-        userdata[user.id] = user.password
+        userdata[user.id!!] = user.pw!!
     }
 
     fun getShops(user:User) : List<Shop> {
