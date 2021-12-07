@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.ObjectDetection">
         <activity
-            android:name="com.example.coronacounter.MainActivity"
+            android:name=".imageProcessor.IPActivity"
             android:label="Corona Counter"
             android:screenOrientation="portrait"
             android:exported="true"
@@ -45,9 +45,9 @@
             android:exported="true"
             tools:ignore="Instantiatable" />
 
-        <activity android:name=".imageProcessor.IPActivity"
-            android:exported="true"
-            tools:ignore="Instantiatable" />
+<!--        <activity android:name=".imageProcessor.IPActivity"-->
+<!--            android:exported="true"-->
+<!--            tools:ignore="Instantiatable" />-->
         <activity android:name=".imageProcessor.DetectorActivity"
             android:exported="true"
             tools:ignore="Instantiatable" />

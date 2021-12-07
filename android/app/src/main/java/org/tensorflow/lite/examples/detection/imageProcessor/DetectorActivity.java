@@ -250,6 +250,9 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
             if(detectedPos != 0){
               System.out.println(detectedPos);
             }
+            else{
+              System.out.println(detectedPos);
+            }
           }
         });
   }
