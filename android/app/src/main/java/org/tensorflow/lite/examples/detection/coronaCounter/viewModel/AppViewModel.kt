@@ -62,8 +62,17 @@ class AppViewModel:ViewModel(){
         }
     }
 
-    fun isNewUser(id:String) : Boolean {
-        return auth.isNewId(id,userdata)
+    suspend fun isNewUser(id:String) : Boolean {
+        return withContext(Dispatchers.IO){
+            val DBAccess = loginApi.isIdValid(id)
+            if (DBAccess.isSuccessful){ // http code
+                val isValid = DBAccess.body()!!
+                isValid
+            } else{     // network error
+                Log.d(TAG,"network error")
+                false
+            }
+        }
     }
 
     fun addUser(user:User){

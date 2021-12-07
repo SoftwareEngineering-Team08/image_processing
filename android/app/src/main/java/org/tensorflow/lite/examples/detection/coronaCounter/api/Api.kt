@@ -31,6 +31,16 @@ interface Api {
     @POST("distance-stage")
     suspend fun getShopLists(@Body user: User)
             : Response<List<Shop>>
+
+
+
+    //TODO
+    //id를 건네주면
+    //그 id를 사용하고 있는 유저가 있는지 boolean으로 받고 싶음.
+    @Headers("Content-Type:application/json")
+    @POST("distance-stage")
+    suspend fun isIdValid(@Body id: String)
+            : Response<Boolean>
 }
 
 object RetrofitInstance {

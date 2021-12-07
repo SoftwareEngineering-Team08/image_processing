@@ -9,12 +9,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import org.tensorflow.lite.R
 import org.tensorflow.lite.examples.detection.databinding.FragmentLoginPageBinding
 import org.tensorflow.lite.examples.detection.databinding.FragmentSignUpPageBinding
 import com.example.coronacounter.model.User
 import com.example.coronacounter.viewModel.AppViewModel
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -73,17 +75,25 @@ class SignUpPage : Fragment() {
 
         signUpButton.setOnClickListener {
             Log.d(TAG,"signUp clicked")
-            val isNewUser = sharedViewModel.isNewUser(userName.text.toString())
             val action = SignUpPageDirections.actionSignUpPageToLoginPage()
-            if (isNewUser){
-                Log.d(TAG,"new User added")
-                val user = User(userName.text.toString(),userPassword.text.toString(),"darkjisoo")
-                sharedViewModel.addUser(user)
-                view.findNavController().navigate(action)
+            lifecycleScope.launch {
+                // Main
+                val isNewUser = sharedViewModel.isNewUser(userName.text.toString())
+                if (isNewUser){
+                    Log.d(TAG,"new User added")
+                    val user = User(userName.text.toString(),userPassword.text.toString(),"darkjisoo")
+                    sharedViewModel.addUser(user)
+                    view.findNavController().navigate(action)
+                }
+                else{
+                    //Todo signupfailed
+                    Log.d(TAG,"sign up failed")
+                    view.findNavController().navigate(action)
+                }
             }
-            else{
-                //sign up failed
-            }
+
+
+
 
         }
 
