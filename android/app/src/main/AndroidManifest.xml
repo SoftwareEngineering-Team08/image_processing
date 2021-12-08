@@ -10,7 +10,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
-        android:name=".imageProcessor.ImageProcessor"
+        android:name=".imageProcessor.IPGlobal"
         android:allowBackup="true"
         android:label="Corona Counter"
         android:supportsRtl="true"

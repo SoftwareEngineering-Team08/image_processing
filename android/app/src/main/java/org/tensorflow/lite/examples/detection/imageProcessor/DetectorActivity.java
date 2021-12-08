@@ -25,7 +25,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -82,6 +81,12 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
   private long timestamp = 0;
 
+  private int tempEnter = 0;
+  private int tempExit = 200;
+  private boolean isEnter = false;
+  private boolean isExit = false;
+  private int testCurrent = 0;
+
   private Matrix frameToCropTransform;
   private Matrix cropToFrameTransform;
 
@@ -89,19 +94,21 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
   private BorderedText borderedText;
 
-  private ImageProcessor imageProcessor = new ImageProcessor();
+  private IPGlobal ipGlobal;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState){
     super.onCreate(savedInstanceState);
     setContentView(R.layout.tfe_od_activity_camera);
-    // @@@ Need to Initialize Maximum & Limited @@@
-    imageProcessor.setMaximum(10);
-    imageProcessor.setLimited(4);
-    imageProcessor.setCurrent(0);
-    System.out.println(imageProcessor.getMaximum());
-    System.out.println(imageProcessor.getLimited());
-    System.out.println(imageProcessor.getCurrent());
+    ipGlobal = (IPGlobal) getApplication();
+//    boolean isRight = ipGlobal.getIsRight();
+//    // @@@ Need to Initialize Maximum & Limited @@@
+//    ipGlobal.setMaximum(10);
+//    ipGlobal.setLimited(4);
+    //ipGlobal.setCurrent(0);
+//    System.out.println(ipGlobal.getMaximum());
+//    System.out.println(ipGlobal.getLimited());
+    //System.out.println(ipGlobal.getCurrent());
   }
 
   @Override
@@ -247,14 +254,57 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                   }
                 });
             int detectedPos = tracker.draw(canvas);
-            if(detectedPos != 0){
-              System.out.println(detectedPos);
+
+            if(ipGlobal.getIsRight()){
+              System.out.println("This is Right Entrance");
             }
             else{
-              System.out.println(detectedPos);
+              System.out.println("This is Left Entrance");
+              //setLeft(detectedPos);
+              //leftCount(detectedPos);
             }
+//            if(detectedPos != 0){
+//              System.out.println(detectedPos);
+//            }
           }
         });
+  }
+
+  private void setLeft(int givenPos){
+    if(givenPos < 30 && givenPos >= 1){
+      this.isEnter = true;
+      this.isExit = false;
+    }
+    else if(givenPos > 175){
+      this.isExit = true;
+      this.isEnter = false;
+    }
+  }
+
+  // @@@ counting people using detectPos @@@
+  private void leftCount(int givenPos){
+    if(this.isEnter && !this.isEnter){
+      if(givenPos >= 130 && givenPos < 150 ){
+        // Enter shop
+        System.out.println(givenPos);
+        testCurrent+=1;
+        System.out.println(testCurrent);
+        //ipGlobal.setCurrent(ipGlobal.getCurrent()+1);
+        //System.out.println(ipGlobal.getCurrent());
+        this.isEnter = false;
+        this.isExit = false;
+      }
+    }
+    else if(!this.isEnter && this.isExit){
+      if(givenPos <= 30 && givenPos > 60){
+        // Exit shop
+        System.out.println(givenPos);
+        testCurrent-=1;
+        System.out.println(testCurrent);
+        this.isExit = false;
+        this.isEnter = false;
+      }
+    }
   }
 
   @Override
