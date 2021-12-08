@@ -259,9 +259,9 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
               System.out.println("This is Right Entrance");
             }
             else{
-              System.out.println("This is Left Entrance");
-              //setLeft(detectedPos);
-              //leftCount(detectedPos);
+              //System.out.println("This is Left Entrance");
+              setLeft(detectedPos);
+              leftCount(detectedPos);
             }
 //            if(detectedPos != 0){
 //              System.out.println(detectedPos);
@@ -271,7 +271,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   }
 
   private void setLeft(int givenPos){
-    if(givenPos < 30 && givenPos >= 1){
+    if(givenPos < 70 && givenPos >= 1){
       this.isEnter = true;
       this.isExit = false;
     }
@@ -283,8 +283,8 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
   // @@@ counting people using detectPos @@@
   private void leftCount(int givenPos){
-    if(this.isEnter && !this.isEnter){
-      if(givenPos >= 130 && givenPos < 150 ){
+    if(this.isEnter){
+      if(givenPos >= 120 && givenPos < 170 ){
         // Enter shop
         System.out.println(givenPos);
         testCurrent+=1;
@@ -295,16 +295,16 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
         this.isExit = false;
       }
     }
-    else if(!this.isEnter && this.isExit){
-      if(givenPos <= 30 && givenPos > 60){
-        // Exit shop
-        System.out.println(givenPos);
-        testCurrent-=1;
-        System.out.println(testCurrent);
-        this.isExit = false;
-        this.isEnter = false;
-      }
-    }
+//    else if(!this.isEnter && this.isExit){
+//      if(givenPos <= 30 && givenPos > 60){
+//        // Exit shop
+//        System.out.println(givenPos);
+//        testCurrent-=1;
+//        System.out.println(testCurrent);
+//        this.isExit = false;
+//        this.isEnter = false;
+//      }
+//    }
   }
 
   @Override
