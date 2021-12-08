@@ -8,13 +8,12 @@ object Datas {
         "" to ""
     )
 
-
-    val shops = mutableMapOf<String,List<Shop>>(
-        "soo" to listOf<Shop>(Shop("shop1","jisoobar","Daejeon",50,20,BusinessType.BAR)
-        ,Shop("shop2","jisoorestaurant","Daejeon",50,20,BusinessType.RESTAURANT)
-        ,Shop("shop3","jisooclub","Daejeon",50,20,BusinessType.HOTEL)
-        ),
-        "dongheon" to listOf<Shop>(Shop("shop4","dongheoGYM","Daejeon",50,20,BusinessType.GYM)),
-        "honggi" to listOf<Shop>(Shop("shop5","honggiRestaurant","Daejeon",50,20,BusinessType.RESTAURANT)),
-    )
+//    val shops = mutableMapOf<String,List<Shop>>(
+//        "soo" to listOf<Shop>(Shop("shop1","jisoobar","Daejeon",50,20,BusinessType.BAR)
+//        ,Shop("shop2","jisoorestaurant","Daejeon",50,20,BusinessType.RESTAURANT)
+//        ,Shop("shop3","jisooclub","Daejeon",50,20,BusinessType.HOTEL)
+//        ),
+//        "dongheon" to listOf<Shop>(Shop("shop4","dongheoGYM","Daejeon",50,20,BusinessType.GYM)),
+//        "honggi" to listOf<Shop>(Shop("shop5","honggiRestaurant","Daejeon",50,20,BusinessType.RESTAURANT)),
+//    )
 }

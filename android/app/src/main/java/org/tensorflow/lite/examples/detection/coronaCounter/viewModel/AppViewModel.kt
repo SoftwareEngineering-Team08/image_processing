@@ -26,15 +26,15 @@ class AppViewModel:ViewModel(){
 
     val auth = Authenticator
     val userdata  = Datas.userdatabase
-    val shopdata  =  Datas.shops
+//    val shopdata  =  Datas.shops
 
-    private val loginApi = RetrofitInstance.instance.create(Api::class.java)
+    private val Api = RetrofitInstance.instance.create(Api::class.java)
 
 
     // 유저를 세팅하고, 결과를 알려주는 함수
     suspend fun signin(user: User): Boolean {
         return withContext(Dispatchers.IO){
-            val DBAccess = loginApi.authentication(user)
+            val DBAccess = Api.authentication(user)
             if (DBAccess.isSuccessful){ // http code
                 val DBuserInfo = DBAccess.body()!!
                 if (DBuserInfo.id.equals("id invalid")){
@@ -54,7 +54,7 @@ class AppViewModel:ViewModel(){
 
     suspend fun getDistance(rname: String): Integer{
         return withContext(Dispatchers.IO){
-            val DBAccess = loginApi.getDistance(rname)
+            val DBAccess = Api.getDistance(rname)
             if (DBAccess.isSuccessful){
                 DBAccess.body()!!
             }
@@ -64,7 +64,7 @@ class AppViewModel:ViewModel(){
 
     suspend fun isNewUser(id:String) : Boolean {
         return withContext(Dispatchers.IO){
-            val DBAccess = loginApi.isIdValid(id)
+            val DBAccess = Api.isIdValid(id)
             if (DBAccess.isSuccessful){ // http code
                 val isValid = DBAccess.body()!!
                 isValid
@@ -76,7 +76,6 @@ class AppViewModel:ViewModel(){
     }
 
     fun addUser(user:User){
-
         userdata[user.id!!] = user.pw!!
     }
 
@@ -85,11 +84,9 @@ class AppViewModel:ViewModel(){
         Log.d(TAG,"fetch shops")
         withContext(Dispatchers.IO) {
             //TODO 데이터베이스에 접속
-            //아래 다 지우고 작성
-            delay(100)
-            _shops.postValue(shopdata[user.value?.id] ?: listOf<Shop>())
+            val DBAcess = Api.getShopLists(_user.value!!)
+//            _shops.postValue(shopdata[user.value?.id] ?: listOf<Shop>())
+            _shops.postValue(DBAcess.body())
         }
     }
-
-
 }

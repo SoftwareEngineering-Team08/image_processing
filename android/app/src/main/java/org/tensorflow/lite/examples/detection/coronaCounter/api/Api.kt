@@ -28,17 +28,15 @@ interface Api {
     //유저를 건네주면 그 유저가 가지고 있는
     //상가들을 리스트형태로 받고 싶음.
     @Headers("Content-Type:application/json")
-    @POST("distance-stage")
+    @POST("shopList")
     suspend fun getShopLists(@Body user: User)
             : Response<List<Shop>>
-
-
 
     //TODO
     //id를 건네주면
     //그 id를 사용하고 있는 유저가 있는지 boolean으로 받고 싶음.
     @Headers("Content-Type:application/json")
-    @POST("distance-stage")
+    @POST("idValid")
     suspend fun isIdValid(@Body id: String)
             : Response<Boolean>
 }
