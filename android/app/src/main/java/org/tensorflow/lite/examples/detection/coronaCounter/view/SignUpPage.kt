@@ -80,15 +80,19 @@ class SignUpPage : Fragment() {
                 // Main
                 val isNewUser = sharedViewModel.isNewUser(userName.text.toString())
                 if (isNewUser){
-                    Log.d(TAG,"new User added")
+                    Log.d(TAG,"회원가입 시도중")
                     val user = User(userName.text.toString(),userPassword.text.toString(),"darkjisoo")
-                    sharedViewModel.addUser(user)
-                    view.findNavController().navigate(action)
+                    val valid = sharedViewModel.addUser(user)
+                    if (valid){
+                        view.findNavController().navigate(action)
+                        Log.d(TAG,"${user.id} 회원가입 성공")
+                    }else{
+                        Log.d(TAG,"네트워크 에러로 회원가입 실패 ${user.id}")
+                    }
+
                 }
                 else{
-                    //Todo signupfailed
-                    Log.d(TAG,"sign up failed")
-                    view.findNavController().navigate(action)
+                    Log.d(TAG,"이미 존재하는 아이디입니다.")
                 }
             }
 

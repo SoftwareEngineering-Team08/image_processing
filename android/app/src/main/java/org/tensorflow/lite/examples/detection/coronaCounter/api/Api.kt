@@ -25,6 +25,14 @@ interface Api {
     : Response<Integer>
 
     //TODO
+    //유저를 건네주면
+    //그 유저를 데이터베이스에 추가해서 회원가입을 하고
+    // 성공하면 true를, 실패하면 false를 받고 싶음
+    @Headers("Content-Type:application/json")
+    @POST("add-user")
+    suspend fun addUser(@Body user: User)
+            : Response<Boolean>
+
     //유저를 건네주면 그 유저가 가지고 있는
     //상가들을 리스트형태로 받고 싶음.
     @Headers("Content-Type:application/json")
@@ -32,7 +40,6 @@ interface Api {
     suspend fun getShopLists(@Body user: User)
             : Response<List<Shop>>
 
-    //TODO
     //id를 건네주면
     //그 id를 사용하고 있는 유저가 있는지 boolean으로 받고 싶음.
     @Headers("Content-Type:application/json")

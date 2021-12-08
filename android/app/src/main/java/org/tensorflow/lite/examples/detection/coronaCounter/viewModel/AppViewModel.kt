@@ -24,6 +24,9 @@ class AppViewModel:ViewModel(){
     private val _shops = MutableLiveData<List<Shop>>()
     val shops: LiveData<List<Shop>> get() = _shops
 
+    private val _shop = MutableLiveData<Shop>()
+    val shop: LiveData<Shop> get() = _shop
+
     val auth = Authenticator
     val userdata  = Datas.userdatabase
 //    val shopdata  =  Datas.shops
@@ -75,8 +78,17 @@ class AppViewModel:ViewModel(){
         }
     }
 
-    fun addUser(user:User){
-        userdata[user.id!!] = user.pw!!
+    suspend fun addUser(user:User) : Boolean {
+        return withContext(Dispatchers.IO){
+        val DBAccess = Api.addUser(user)
+        if (DBAccess.isSuccessful){ // http code
+            val didSucceed = DBAccess.body()!!
+            didSucceed
+        } else{     // network error
+            Log.d(TAG,"addUser network error")
+            false
+        }
+        }
     }
 
     //샵 리스트를 업데이트 하는 함수
