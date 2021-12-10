@@ -35,6 +35,7 @@ class SignUpPage : Fragment() {
 
     private lateinit var userName: TextView
     private lateinit var userPassword: TextView
+    private lateinit var userKoreanName: TextView
     private lateinit var signUpButton: Button
     private lateinit var returnToSignInButton: Button
 
@@ -63,6 +64,7 @@ class SignUpPage : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         userName = binding.userIdInput.editText!!
         userPassword = binding.userPasswordInput.editText!!
+        userKoreanName = binding.userNameInput.editText!!
         returnToSignInButton = binding.returnToSignin
         signUpButton = binding.signupFinish
 
@@ -81,7 +83,7 @@ class SignUpPage : Fragment() {
                 val isNewUser = sharedViewModel.isNewUser(userName.text.toString())
                 if (isNewUser){
                     Log.d(TAG,"회원가입 시도중")
-                    val user = User(Integer(0),userName.text.toString(),userPassword.text.toString(),"darkjisoo")
+                    val user = User(Integer(0),userName.text.toString(),userPassword.text.toString(),userKoreanName.text.toString())
                     val valid = sharedViewModel.addUser(user)
                     if (valid){
                         view.findNavController().navigate(action)
