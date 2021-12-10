@@ -83,7 +83,9 @@ class SignUpPage : Fragment() {
                 val isNewUser = sharedViewModel.isNewUser(userName.text.toString())
                 if (isNewUser){
                     Log.d(TAG,"회원가입 시도중")
+
                     val user = User(Integer(0),userName.text.toString(),userPassword.text.toString(),userKoreanName.text.toString())
+
                     val valid = sharedViewModel.addUser(user)
                     if (valid){
                         view.findNavController().navigate(action)
@@ -91,18 +93,12 @@ class SignUpPage : Fragment() {
                     }else{
                         Log.d(TAG,"네트워크 에러로 회원가입 실패 ${user.id}")
                     }
-
                 }
                 else{
                     Log.d(TAG,"이미 존재하는 아이디입니다.")
                 }
             }
-
-
-
-
         }
-
     }
     override fun onDestroyView() {
         super.onDestroyView()
