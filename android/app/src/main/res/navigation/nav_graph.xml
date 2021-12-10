@@ -25,6 +25,12 @@
         <action
             android:id="@+id/action_mainMenu_to_myPage"
             app:destination="@id/myPage" />
+        <action
+            android:id="@+id/action_mainMenu_to_statisticPage"
+            app:destination="@id/statisticPage" />
+        <action
+            android:id="@+id/action_mainMenu_to_distanceStage"
+            app:destination="@id/distanceStage" />
     </fragment>
     <fragment
         android:id="@+id/signUpPage"
@@ -55,4 +61,14 @@
             android:name="shop"
             app:argType="com.example.coronacounter.model.Shop" />
     </fragment>
+    <fragment
+        android:id="@+id/statisticPage"
+        android:name="org.tensorflow.lite.examples.detection.coronaCounter.view.StatisticPage"
+        android:label="fragment_statistic_page"
+        tools:layout="@layout/fragment_statistic_page" />
+    <fragment
+        android:id="@+id/distanceStage"
+        android:name="org.tensorflow.lite.examples.detection.coronaCounter.view.DistanceStage"
+        android:label="fragment_distance_stage"
+        tools:layout="@layout/fragment_distance_stage" />
 </navigation>

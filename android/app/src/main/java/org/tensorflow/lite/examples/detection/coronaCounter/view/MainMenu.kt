@@ -37,6 +37,8 @@ class MainMenu : Fragment() {
     private val sharedViewModel: AppViewModel by activityViewModels()
 
     private lateinit var toCheckPeopleButton: Button
+    private lateinit var toDistanceCheckButton: Button
+    private lateinit var toStatisticButton: Button
     private lateinit var toMyPageButton: Button
 
 
@@ -64,6 +66,21 @@ class MainMenu : Fragment() {
             Log.d(TAG, "to checkPeople button clicked")
         }
 
+        toDistanceCheckButton = binding.checkStageButton
+        toDistanceCheckButton.setOnClickListener {
+            val action = MainMenuDirections.actionMainMenuToDistanceStage()
+            view.findNavController().navigate(action)
+            Log.d(TAG,"to distance stage button clicked")
+        }
+
+
+        toStatisticButton = binding.seeStatisticButton
+        toStatisticButton.setOnClickListener {
+            val action = MainMenuDirections.actionMainMenuToStatisticPage()
+            view.findNavController().navigate(action)
+            Log.d(TAG,"to statistic button clicked")
+        }
+
 
         toMyPageButton = binding.myPageButton
         toMyPageButton.setOnClickListener {
@@ -75,21 +92,5 @@ class MainMenu : Fragment() {
             Log.d(TAG,"to myPage button clicked")
         }
     }
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MainMenu.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic fun newInstance(param1: String, param2: String) =
-                MainMenu().apply {
-                    arguments = Bundle().apply {
 
-                    }
-                }
-    }
 }

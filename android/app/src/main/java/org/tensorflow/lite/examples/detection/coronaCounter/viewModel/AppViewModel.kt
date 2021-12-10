@@ -54,7 +54,7 @@ class AppViewModel:ViewModel(){
             }
         }
     }
-
+    // 지역이름을 보내주면, 거리두기 단계를 리턴해주는 함수
     suspend fun getDistance(rname: String): Integer{
         return withContext(Dispatchers.IO){
             val DBAccess = Api.getDistance(rname)
@@ -64,7 +64,7 @@ class AppViewModel:ViewModel(){
             DBAccess.body()!!
         }
     }
-
+    // id를 보내주면 , 새로운 유저일 떄 true를 리턴해주는 함수
     suspend fun isNewUser(id:String) : Boolean {
         return withContext(Dispatchers.IO){
             val DBAccess = Api.isIdValid(id)
@@ -77,7 +77,7 @@ class AppViewModel:ViewModel(){
             }
         }
     }
-
+    // user를 보내면, db에 추가해준후 성공여부를 return하는 함수
     suspend fun addUser(user:User) : Boolean {
         return withContext(Dispatchers.IO){
         val DBAccess = Api.addUser(user)

@@ -16,6 +16,7 @@ import org.tensorflow.lite.examples.detection.databinding.FragmentMainMenuBindin
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+private const val TAG = "EditStore"
 
 /**
  * A simple [Fragment] subclass.

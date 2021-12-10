@@ -37,18 +37,6 @@
 <!--            android:exported="true"-->
 <!--            tools:ignore="Instantiatable" />-->
 
-        <activity
-            android:name="com.example.coronacounter.StatisticActivity"
-            android:exported="true"
-            tools:ignore="Instantiatable" />
-        <activity
-            android:name="com.example.coronacounter.PersonCount2"
-            android:exported="true"
-            tools:ignore="Instantiatable" />
-        <activity
-            android:name="com.example.coronacounter.PersonCount1"
-            android:exported="true"
-            tools:ignore="Instantiatable" />
 
         <activity android:name=".imageProcessor.IPActivity"
             android:exported="true"
