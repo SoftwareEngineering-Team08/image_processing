@@ -80,14 +80,14 @@ class AppViewModel:ViewModel(){
     // user를 보내면, db에 추가해준후 성공여부를 return하는 함수
     suspend fun addUser(user:User) : Boolean {
         return withContext(Dispatchers.IO){
-        val DBAccess = Api.addUser(user)
-        if (DBAccess.isSuccessful){ // http code
-            val didSucceed = DBAccess.body()!!
-            didSucceed
-        } else{     // network error
-            Log.d(TAG,"addUser network error")
-            false
-        }
+            val DBAccess = Api.addUser(user)
+            if (DBAccess.isSuccessful){ // http code
+                val didSucceed = DBAccess.body()!!
+                didSucceed
+            } else{     // network error
+                Log.d(TAG,"addUser network error")
+                false
+            }
         }
     }
 
