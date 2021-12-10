@@ -63,7 +63,7 @@ class LoginPage : Fragment() {
         signInButton.setOnClickListener {
             // do sign in logic
             Log.d(TAG,"sign in clicked")
-            var user = User(userName.text.toString(),userPassword.text.toString(),"")
+            var user = User(Integer(0),userName.text.toString(),userPassword.text.toString(),"")
 
             lifecycleScope.launch {
                 // Main

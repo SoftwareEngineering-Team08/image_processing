@@ -28,7 +28,6 @@ class AppViewModel:ViewModel(){
     val shop: LiveData<Shop> get() = _shop
 
     val auth = Authenticator
-    val userdata  = Datas.userdatabase
 //    val shopdata  =  Datas.shops
 
     private val Api = RetrofitInstance.instance.create(Api::class.java)
@@ -99,6 +98,7 @@ class AppViewModel:ViewModel(){
             val DBAcess = Api.getShopLists(_user.value!!)
 //            _shops.postValue(shopdata[user.value?.id] ?: listOf<Shop>())
             _shops.postValue(DBAcess.body())
+            Log.d(TAG,DBAcess.body().toString())
         }
     }
 }

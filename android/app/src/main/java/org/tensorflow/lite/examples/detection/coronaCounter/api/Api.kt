@@ -24,7 +24,6 @@ interface Api {
     suspend fun getDistance(@Body rname: String)
     : Response<Integer>
 
-    //TODO
     //유저를 건네주면
     //그 유저를 데이터베이스에 추가해서 회원가입을 하고
     // 성공하면 true를, 실패하면 false를 받고 싶음
