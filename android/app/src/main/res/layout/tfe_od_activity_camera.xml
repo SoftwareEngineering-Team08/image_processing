@@ -38,7 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
-            android:background="@color/tfe_semi_transparent"/>
+            android:background="@color/cardview_shadow_end_color"
+            tools:visibility="invisible" />
 
     </RelativeLayout>
 
