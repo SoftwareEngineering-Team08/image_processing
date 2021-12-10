@@ -4,14 +4,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.coronacounter.model.Authenticator
-import com.example.coronacounter.model.Datas
 import com.example.coronacounter.model.Shop
 import com.example.coronacounter.model.User
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.tensorflow.lite.examples.detection.coronaCounter.api.Api
 import org.tensorflow.lite.examples.detection.coronaCounter.api.RetrofitInstance
@@ -99,6 +95,22 @@ class AppViewModel:ViewModel(){
 //            _shops.postValue(shopdata[user.value?.id] ?: listOf<Shop>())
             _shops.postValue(DBAcess.body())
             Log.d(TAG,DBAcess.body().toString())
+        }
+    }
+
+
+
+    // shop을 보내면, db에 추가해준후 성공여부를 return하는 함수
+    suspend fun addShop(shop:Shop) : Boolean {
+        return withContext(Dispatchers.IO){
+            val DBAccess = Api.addShop(shop)
+            if (DBAccess.isSuccessful){ // http code
+                val didSucceed = DBAccess.body()!!
+                didSucceed
+            } else{     // network error
+                Log.d(TAG,"shop network error")
+                false
+            }
         }
     }
 }
