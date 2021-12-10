@@ -11,11 +11,11 @@
         android:label="fragment_login_page"
         tools:layout="@layout/fragment_login_page" >
         <action
-            android:id="@+id/action_loginPage_to_mainMenu"
-            app:destination="@id/mainMenu" />
-        <action
             android:id="@+id/action_loginPage_to_signUpPage"
             app:destination="@id/signUpPage" />
+        <action
+            android:id="@+id/action_loginPage_to_selectPrimaryShop"
+            app:destination="@id/selectPrimaryShop" />
     </fragment>
     <fragment
         android:id="@+id/mainMenu"
@@ -25,6 +25,15 @@
         <action
             android:id="@+id/action_mainMenu_to_myPage"
             app:destination="@id/myPage" />
+        <action
+            android:id="@+id/action_mainMenu_to_statisticPage"
+            app:destination="@id/statisticPage" />
+        <action
+            android:id="@+id/action_mainMenu_to_distanceStage"
+            app:destination="@id/distanceStage" />
+        <argument
+            android:name="primaryShop"
+            app:argType="com.example.coronacounter.model.Shop" />
     </fragment>
     <fragment
         android:id="@+id/signUpPage"
@@ -54,5 +63,24 @@
         <argument
             android:name="shop"
             app:argType="com.example.coronacounter.model.Shop" />
+    </fragment>
+    <fragment
+        android:id="@+id/statisticPage"
+        android:name="org.tensorflow.lite.examples.detection.coronaCounter.view.StatisticPage"
+        android:label="fragment_statistic_page"
+        tools:layout="@layout/fragment_statistic_page" />
+    <fragment
+        android:id="@+id/distanceStage"
+        android:name="org.tensorflow.lite.examples.detection.coronaCounter.view.DistanceStage"
+        android:label="fragment_distance_stage"
+        tools:layout="@layout/fragment_distance_stage" />
+    <fragment
+        android:id="@+id/selectPrimaryShop"
+        android:name="org.tensorflow.lite.examples.detection.coronaCounter.view.SelectPrimaryShop"
+        android:label="fragment_select_primary_shop"
+        tools:layout="@layout/fragment_select_primary_shop" >
+        <action
+            android:id="@+id/action_selectPrimaryShop_to_mainMenu"
+            app:destination="@id/mainMenu" />
     </fragment>
 </navigation>

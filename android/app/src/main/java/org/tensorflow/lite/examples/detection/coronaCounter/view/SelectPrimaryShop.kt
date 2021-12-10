@@ -1,7 +1,6 @@
-package com.example.coronacounter.view
+package org.tensorflow.lite.examples.detection.coronaCounter.view
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,34 +9,31 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import org.tensorflow.lite.R
 import com.example.coronacounter.adapter.ShopItemAdapter
-import org.tensorflow.lite.examples.detection.databinding.FragmentLoginPageBinding
-import org.tensorflow.lite.examples.detection.databinding.FragmentMyPageBinding
+import com.example.coronacounter.adapter.ShopPrimaryItemAdapter
 import com.example.coronacounter.viewModel.AppViewModel
-import kotlinx.coroutines.launch
-import org.tensorflow.lite.examples.detection.imageProcessor.IPActivity
+import org.tensorflow.lite.examples.detection.R
+import org.tensorflow.lite.examples.detection.databinding.FragmentMyPageBinding
+import org.tensorflow.lite.examples.detection.databinding.FragmentSelectPrimaryShopBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
+
 /**
  * A simple [Fragment] subclass.
- * Use the [MyPage.newInstance] factory method to
+ * Use the [SelectPrimaryShop.newInstance] factory method to
  * create an instance of this fragment.
  */
-
-private const val TAG = "MyPageFragment"
-class MyPage : Fragment() {
+private const val TAG = "SelectPrimaryShop"
+class SelectPrimaryShop : Fragment() {
     // view binding
-    private var _binding: FragmentMyPageBinding? = null
+    private var _binding: FragmentSelectPrimaryShopBinding? = null
     private val binding get() = _binding!!
     private var _context : Context? = null
     private val mycontext get() = _context!!
 
-    private lateinit var addShopButton: Button
 
     private val sharedViewModel: AppViewModel by activityViewModels()
 
@@ -54,25 +50,19 @@ class MyPage : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMyPageBinding.inflate(inflater, container, false)
+        _binding = FragmentSelectPrimaryShopBinding.inflate(inflater, container, false)
         val view = binding.root
         _context = container?.context
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val recyclerView:RecyclerView = binding.userShopList
-        addShopButton = binding.addShopButton
-        addShopButton.setOnClickListener {
-            Log.d(TAG, "addShopButton Clicked")
-            // TODO
-            // 샵 추가 페이지로 이동
-            // 샵추가로직 addshop
-        }
+        val recyclerView: RecyclerView = binding.userPrimaryShopList
+
         recyclerView.setHasFixedSize(true)
         sharedViewModel.shops.observe(viewLifecycleOwner,
             { shops ->
-                    recyclerView.adapter = ShopItemAdapter(mycontext, shops)
+                recyclerView.adapter = ShopPrimaryItemAdapter(mycontext, shops)
             })
 
     }

@@ -9,12 +9,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import org.tensorflow.lite.R
 import org.tensorflow.lite.examples.detection.databinding.FragmentLoginPageBinding
 import org.tensorflow.lite.examples.detection.databinding.FragmentSignUpPageBinding
 import com.example.coronacounter.model.User
 import com.example.coronacounter.viewModel.AppViewModel
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,6 +35,7 @@ class SignUpPage : Fragment() {
 
     private lateinit var userName: TextView
     private lateinit var userPassword: TextView
+    private lateinit var userKoreanName: TextView
     private lateinit var signUpButton: Button
     private lateinit var returnToSignInButton: Button
 
@@ -61,6 +64,7 @@ class SignUpPage : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         userName = binding.userIdInput.editText!!
         userPassword = binding.userPasswordInput.editText!!
+        userKoreanName = binding.userNameInput.editText!!
         returnToSignInButton = binding.returnToSignin
         signUpButton = binding.signupFinish
 
@@ -73,20 +77,28 @@ class SignUpPage : Fragment() {
 
         signUpButton.setOnClickListener {
             Log.d(TAG,"signUp clicked")
-            val isNewUser = sharedViewModel.isNewUser(userName.text.toString())
             val action = SignUpPageDirections.actionSignUpPageToLoginPage()
-            if (isNewUser){
-                Log.d(TAG,"new User added")
-                val user = User(userName.text.toString(),userPassword.text.toString())
-                sharedViewModel.addUser(user)
-                view.findNavController().navigate(action)
-            }
-            else{
-                //sign up failed
-            }
+            lifecycleScope.launch {
+                // Main
+                val isNewUser = sharedViewModel.isNewUser(userName.text.toString())
+                if (isNewUser){
+                    Log.d(TAG,"회원가입 시도중")
 
+                    val user = User(Integer(0),userName.text.toString(),userPassword.text.toString(),userKoreanName.text.toString())
+
+                    val valid = sharedViewModel.addUser(user)
+                    if (valid){
+                        view.findNavController().navigate(action)
+                        Log.d(TAG,"${user.id} 회원가입 성공")
+                    }else{
+                        Log.d(TAG,"네트워크 에러로 회원가입 실패 ${user.id}")
+                    }
+                }
+                else{
+                    Log.d(TAG,"이미 존재하는 아이디입니다.")
+                }
+            }
         }
-
     }
     override fun onDestroyView() {
         super.onDestroyView()

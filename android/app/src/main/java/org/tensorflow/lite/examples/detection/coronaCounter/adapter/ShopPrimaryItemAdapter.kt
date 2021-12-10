@@ -12,8 +12,9 @@ import com.example.coronacounter.model.BusinessType
 import org.tensorflow.lite.examples.detection.R
 import com.example.coronacounter.model.Shop
 import com.example.coronacounter.view.MyPageDirections
+import org.tensorflow.lite.examples.detection.coronaCounter.view.SelectPrimaryShopDirections
 
-class ShopItemAdapter(private val context: Context, private val dataset: List<Shop>) : RecyclerView.Adapter<ShopItemAdapter.ItemViewHolder>(){
+class ShopPrimaryItemAdapter(private val context: Context, private val dataset: List<Shop>) : RecyclerView.Adapter<ShopPrimaryItemAdapter.ItemViewHolder>(){
 
     fun matchBusinessTypeWithDrawanle(type:BusinessType) : Int{
         return when(type){
@@ -43,7 +44,7 @@ class ShopItemAdapter(private val context: Context, private val dataset: List<Sh
         holder.textView.text = item.shopName
         holder.imageView.setImageResource(matchBusinessTypeWithDrawanle(item.businessType!!))
         holder.itemView.setOnClickListener(
-            Navigation.createNavigateOnClickListener(MyPageDirections.actionMyPageToEditStore(shop = item))
+            Navigation.createNavigateOnClickListener(SelectPrimaryShopDirections.actionSelectPrimaryShopToMainMenu(primaryShop = item))
         )
     }
 

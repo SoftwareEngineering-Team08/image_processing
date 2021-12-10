@@ -9,16 +9,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import com.example.coronacounter.model.Authenticator
 import com.example.coronacounter.model.User
 import com.example.coronacounter.viewModel.AppViewModel
+import kotlinx.coroutines.*
 import org.tensorflow.lite.examples.detection.databinding.FragmentLoginPageBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+
 private const val TAG = "LoginPageFragment"
 
 /**
@@ -37,12 +37,12 @@ class LoginPage : Fragment() {
 
     private val sharedViewModel: AppViewModel by activityViewModels()
 
+    lateinit var job: Job
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        job = Job()
     }
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,13 +63,19 @@ class LoginPage : Fragment() {
         signInButton.setOnClickListener {
             // do sign in logic
             Log.d(TAG,"sign in clicked")
-            val user = User(userName.text.toString(),userPassword.text.toString())
-            if (sharedViewModel.userLogin(user)){
-                val action = LoginPageDirections.actionLoginPageToMainMenu()
-                view.findNavController().navigate(action)
-                Log.d(TAG,"${user.id} logged in")
-            }else{
-                Log.d(TAG,"log in failed ${user.id}")
+            var user = User(Integer(0),userName.text.toString(),userPassword.text.toString(),"")
+
+            lifecycleScope.launch {
+                // Main
+                val valid = sharedViewModel.signin(user)
+                if (valid){
+                    sharedViewModel.fetchShops()
+                    val action = LoginPageDirections.actionLoginPageToSelectPrimaryShop()
+                    view.findNavController().navigate(action)
+                    Log.d(TAG,"${user.id} logged in")
+                }else{
+                    Log.d(TAG,"log in failed ${user.id}")
+                }
             }
         }
 
@@ -78,36 +84,17 @@ class LoginPage : Fragment() {
             view.findNavController().navigate(action)
             Log.d(TAG,"sign up clicked")
         }
-
-
-
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LoginPage.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LoginPage().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()    // 좀비 쓰레드
     }
+
+
 }

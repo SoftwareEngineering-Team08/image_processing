@@ -1,39 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".coronaCounter.view.SelectPrimaryShop">
 
-    tools:context="com.example.coronacounter.view.MyPage">
-
-    <!-- TODO: Update blank fragment layout -->
-
-    <Button
-        android:id="@+id/add_shop_button"
+    <TextView
+        android:id="@+id/primary_intro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="상가 추가하기"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="서비스를 이용하실 상가를 고르세요"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.055"></Button>
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/user_shop_list"
+        android:id="@+id/user_primary_shop_list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
+
+
+
+
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toBottomOf="parent"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_shop_button"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/primary_intro"
+        app:layout_constraintVertical_bias="0.0"
+
+     />
 </androidx.constraintlayout.widget.ConstraintLayout>
