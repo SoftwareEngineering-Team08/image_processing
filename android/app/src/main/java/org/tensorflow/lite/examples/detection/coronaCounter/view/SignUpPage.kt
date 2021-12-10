@@ -81,7 +81,7 @@ class SignUpPage : Fragment() {
                 val isNewUser = sharedViewModel.isNewUser(userName.text.toString())
                 if (isNewUser){
                     Log.d(TAG,"new User added")
-                    val user = User(userName.text.toString(),userPassword.text.toString(),"darkjisoo")
+                    val user = User(Integer(0),userName.text.toString(),userPassword.text.toString(),"darkjisoo")
                     sharedViewModel.addUser(user)
                     view.findNavController().navigate(action)
                 }
