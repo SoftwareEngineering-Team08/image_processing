@@ -50,8 +50,8 @@ interface Api {
 
 object RetrofitInstance {
     // 안드로이드는 클라이언트 ip가 다름.
-    val BASE_URL: String = "http://10.0.2.2:8080/"
-//    val BASE_URL: String = "http://3.13.129.81:8080/"
+//    val BASE_URL: String = "http://10.0.2.2:8080/"
+    val BASE_URL: String = "http://3.13.129.81:8080/"
 
     val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         this.level = HttpLoggingInterceptor.Level.BODY
