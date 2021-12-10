@@ -69,7 +69,8 @@ class LoginPage : Fragment() {
                 // Main
                 val valid = sharedViewModel.signin(user)
                 if (valid){
-                    val action = LoginPageDirections.actionLoginPageToMainMenu()
+                    sharedViewModel.fetchShops()
+                    val action = LoginPageDirections.actionLoginPageToSelectPrimaryShop()
                     view.findNavController().navigate(action)
                     Log.d(TAG,"${user.id} logged in")
                 }else{

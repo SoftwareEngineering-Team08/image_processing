@@ -1,7 +1,9 @@
 package com.example.coronacounter.model
 
+import android.util.Log
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+import java.math.BigInteger
 
 data class Shop(
     @SerializedName("sid")
@@ -16,9 +18,13 @@ data class Shop(
     @SerializedName("maxPeople")
     var maximumPeople:Integer?,
 
-    @SerializedName("limitPeople")
-    var limitPeople:Integer?,
 
     @SerializedName("businessType")
     var businessType:BusinessType?
-) :Serializable
+) :Serializable{
+    fun limitPeople (stage:Int) : Int{
+        val limit = (this.maximumPeople!!.toInt() * (1-stage/4.0)).toInt()
+        Log.d("limitpeople",limit.toString())
+        return limit
+    }
+}

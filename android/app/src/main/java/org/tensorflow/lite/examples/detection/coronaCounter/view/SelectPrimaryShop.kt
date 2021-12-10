@@ -1,35 +1,43 @@
 package org.tensorflow.lite.examples.detection.coronaCounter.view
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Button
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.RecyclerView
+import com.example.coronacounter.adapter.ShopItemAdapter
+import com.example.coronacounter.adapter.ShopPrimaryItemAdapter
 import com.example.coronacounter.viewModel.AppViewModel
 import org.tensorflow.lite.examples.detection.R
-import org.tensorflow.lite.examples.detection.databinding.FragmentDistanceStageBinding
-import org.tensorflow.lite.examples.detection.databinding.FragmentStatisticPageBinding
+import org.tensorflow.lite.examples.detection.databinding.FragmentMyPageBinding
+import org.tensorflow.lite.examples.detection.databinding.FragmentSelectPrimaryShopBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-private const val TAG = "DistanceStage"
+
+
 /**
  * A simple [Fragment] subclass.
- * Use the [DistanceStage.newInstance] factory method to
+ * Use the [SelectPrimaryShop.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DistanceStage : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var _binding: FragmentDistanceStageBinding? = null
+private const val TAG = "SelectPrimaryShop"
+class SelectPrimaryShop : Fragment() {
+    // view binding
+    private var _binding: FragmentSelectPrimaryShopBinding? = null
     private val binding get() = _binding!!
+    private var _context : Context? = null
+    private val mycontext get() = _context!!
+
+
     private val sharedViewModel: AppViewModel by activityViewModels()
-    private lateinit var limitPeople:TextView
-    private lateinit var distanceStage: TextView
-    private lateinit var maxPeople: TextView
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,26 +50,26 @@ class DistanceStage : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentDistanceStageBinding.inflate(inflater, container, false)
+        _binding = FragmentSelectPrimaryShopBinding.inflate(inflater, container, false)
         val view = binding.root
+        _context = container?.context
         return view
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        limitPeople = binding.limitPeople
-        distanceStage = binding.distanceStage
-        maxPeople = binding.maxPeople
-        limitPeople.
-                text = sharedViewModel.limitPeople.toString()
+        val recyclerView: RecyclerView = binding.userPrimaryShopList
 
-        distanceStage.text = sharedViewModel.mainStage.value!!.toString()
+        recyclerView.setHasFixedSize(true)
+        sharedViewModel.shops.observe(viewLifecycleOwner,
+            { shops ->
+                recyclerView.adapter = ShopPrimaryItemAdapter(mycontext, shops)
+            })
 
-        maxPeople.text = sharedViewModel.mainShop.value!!.maximumPeople.toString()
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }

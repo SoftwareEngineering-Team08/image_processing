@@ -7,11 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import com.example.coronacounter.model.Shop
 import org.tensorflow.lite.examples.detection.databinding.FragmentLoginPageBinding
 import org.tensorflow.lite.examples.detection.databinding.FragmentMainMenuBinding
 import com.example.coronacounter.model.User
@@ -40,6 +41,8 @@ class MainMenu : Fragment() {
     private lateinit var toDistanceCheckButton: Button
     private lateinit var toStatisticButton: Button
     private lateinit var toMyPageButton: Button
+    private lateinit var primaryShop: Shop
+    private lateinit var primaryShopNameText: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,11 +57,20 @@ class MainMenu : Fragment() {
                               savedInstanceState: Bundle?): View? {
         _binding = FragmentMainMenuBinding.inflate(inflater, container, false)
         val view = binding.root
+        primaryShop = arguments?.getSerializable("primaryShop") as Shop
+        sharedViewModel.setPrimaryShop(primaryShop)
         // Inflate the layout for this fragment
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        primaryShopNameText=binding.mainMenuText
+        sharedViewModel.mainShop.observe(viewLifecycleOwner,{
+            mainshop->
+            primaryShopNameText.text=mainshop.shopName
+        })
+
         toCheckPeopleButton = binding.checkPeopleButton
         toCheckPeopleButton.setOnClickListener {
             val intent = Intent(getActivity(), IPActivity::class.java)
@@ -91,6 +103,13 @@ class MainMenu : Fragment() {
             view.findNavController().navigate(action)
             Log.d(TAG,"to myPage button clicked")
         }
+        lifecycleScope.launch {
+            // Main
+            sharedViewModel.fetchStage()
+        }
+
+
+
     }
 
 }

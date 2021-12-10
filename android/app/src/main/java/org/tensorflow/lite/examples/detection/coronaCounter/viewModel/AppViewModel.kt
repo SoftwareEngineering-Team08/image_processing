@@ -23,6 +23,14 @@ class AppViewModel:ViewModel(){
     private val _shop = MutableLiveData<Shop>()
     val shop: LiveData<Shop> get() = _shop
 
+    private val _mainShop = MutableLiveData<Shop>()
+    val mainShop: LiveData<Shop> get() = _mainShop
+
+    private val _mainStage = MutableLiveData<Int>()
+    val mainStage: LiveData<Int> get() = _mainStage
+
+
+    val limitPeople: Int get() = _mainShop.value!!.limitPeople(_mainStage.value!!)
     val auth = Authenticator
 //    val shopdata  =  Datas.shops
 
@@ -98,8 +106,22 @@ class AppViewModel:ViewModel(){
         }
     }
 
+    //메인 스테이지를 업데이트하는 함수
+    suspend fun fetchStage() {
+        Log.d(TAG,"fetch primary stage")
+        withContext(Dispatchers.IO) {
+            //TODO 데이터베이스에 접속
+            val DBAcess = Api.getDistance(_mainShop.value!!.location!!)
+//            _shops.postValue(shopdata[user.value?.id] ?: listOf<Shop>())
+            _mainStage.postValue(DBAcess.body()!!.toInt())
+            Log.d(TAG,DBAcess.body().toString())
+        }
+    }
 
-
+    // 주상가 =  카운팅을 할 상가를 정함.
+    fun setPrimaryShop(shop:Shop){
+        _mainShop.value = shop
+    }
     // shop을 보내면, db에 추가해준후 성공여부를 return하는 함수
     suspend fun addShop(shop:Shop) : Boolean {
         return withContext(Dispatchers.IO){
