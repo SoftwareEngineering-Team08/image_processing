@@ -311,7 +311,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
         // Enter shop
         System.out.println("Enter: ");
         System.out.println(givenPos);
-        if()
         testCurrent+=1;
         System.out.println(testCurrent);
         this.onlyOnce = true;

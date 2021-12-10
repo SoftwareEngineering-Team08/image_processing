@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="org.tensorflow.lite.examples.detection">
+    <!-- 서버 통신을 위한 permission -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-sdk />
 
@@ -14,9 +16,12 @@
         android:allowBackup="true"
         android:label="Corona Counter"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.ObjectDetection">
+        android:theme="@style/AppTheme.ObjectDetection"
+        android:usesCleartextTraffic="true">
+        <!--  usesCleartextTraffic="true" -> http 통신이 가능하도록 설정 -->
+
         <activity
-            android:name=".imageProcessor.IPActivity"
+            android:name="com.example.coronacounter.MainActivity"
             android:label="Corona Counter"
             android:screenOrientation="portrait"
             android:exported="true"
@@ -27,27 +32,15 @@
             </intent-filter>
         </activity>
 
-<!--        <activity-->
-<!--            android:name="com.example.coronacounter.view."-->
-<!--            android:exported="true"-->
-<!--            tools:ignore="Instantiatable" />-->
+        <!--        <activity-->
+        <!--            android:name="com.example.coronacounter.EditStore"-->
+        <!--            android:exported="true"-->
+        <!--            tools:ignore="Instantiatable" />-->
 
-        <activity
-            android:name="com.example.coronacounter.StatisticActivity"
-            android:exported="true"
-            tools:ignore="Instantiatable" />
-        <activity
-            android:name="com.example.coronacounter.PersonCount2"
-            android:exported="true"
-            tools:ignore="Instantiatable" />
-        <activity
-            android:name="com.example.coronacounter.PersonCount1"
-            android:exported="true"
-            tools:ignore="Instantiatable" />
 
-<!--        <activity android:name=".imageProcessor.IPActivity"-->
-<!--            android:exported="true"-->
-<!--            tools:ignore="Instantiatable" />-->
+        <activity android:name=".imageProcessor.IPActivity"
+            android:exported="true"
+            tools:ignore="Instantiatable" />
         <activity android:name=".imageProcessor.DetectorActivity"
             android:exported="true"
             tools:ignore="Instantiatable" />
