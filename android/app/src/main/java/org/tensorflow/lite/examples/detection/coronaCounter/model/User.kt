@@ -15,4 +15,5 @@ data class User(
 
     @SerializedName("oname")
     var oname: String?
+
 ) : Serializable
