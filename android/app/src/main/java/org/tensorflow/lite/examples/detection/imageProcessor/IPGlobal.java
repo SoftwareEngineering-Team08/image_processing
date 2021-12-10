@@ -8,7 +8,6 @@ public class IPGlobal extends Application {
     private int maximum;
     private int current;
     private int limited;
-    //private float detectedPos;
 
     public boolean getIsBack(){
         return this.isBack;
@@ -45,12 +44,6 @@ public class IPGlobal extends Application {
         this.limited = givenLimited;
     }
 
-//
-//    public float getDetectedPos() {
-//        return detectedPos;
-//    }
-//
-//    public void setDetectedPos(float detectedPos) {
-//        this.detectedPos = detectedPos;
-//    }
+
+
 }

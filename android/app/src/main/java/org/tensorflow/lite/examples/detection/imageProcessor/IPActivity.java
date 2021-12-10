@@ -27,9 +27,11 @@ public class IPActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked){
                     ipGlobal.setIsBack(true);
+                    System.out.println("This is Back Camera");
                 }
                 else{
                     ipGlobal.setIsBack(false);
+                    System.out.println("This is Front Camera");
                 }
             }
         });
@@ -40,9 +42,11 @@ public class IPActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked){
                     ipGlobal.setIsRight(true);
+                    System.out.println("This is Right Entrance");
                 }
                 else{
                     ipGlobal.setIsRight(false);
+                    System.out.println("This is Left Entrance");
                 }
             }
         });

@@ -81,8 +81,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
   private long timestamp = 0;
 
-  private int tempEnter = 0;
-  private int tempExit = 200;
+  private boolean onlyOnce = false;
   private boolean isEnter = false;
   private boolean isExit = false;
   private int testCurrent = 0;
@@ -101,14 +100,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     super.onCreate(savedInstanceState);
     setContentView(R.layout.tfe_od_activity_camera);
     ipGlobal = (IPGlobal) getApplication();
-//    boolean isRight = ipGlobal.getIsRight();
-//    // @@@ Need to Initialize Maximum & Limited @@@
-//    ipGlobal.setMaximum(10);
-//    ipGlobal.setLimited(4);
-    //ipGlobal.setCurrent(0);
-//    System.out.println(ipGlobal.getMaximum());
-//    System.out.println(ipGlobal.getLimited());
-    //System.out.println(ipGlobal.getCurrent());
+
   }
 
   @Override
@@ -254,57 +246,93 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                   }
                 });
             int detectedPos = tracker.draw(canvas);
+            int limit = ipGlobal.getLimited();
+            int current = ipGlobal.getCurrent();
 
             if(ipGlobal.getIsRight()){
-              System.out.println("This is Right Entrance");
+              setRight(detectedPos);
+              countPeople(detectedPos);
             }
             else{
-              //System.out.println("This is Left Entrance");
               setLeft(detectedPos);
-              leftCount(detectedPos);
+              countPeople(detectedPos);
             }
-//            if(detectedPos != 0){
-//              System.out.println(detectedPos);
-//            }
           }
         });
   }
 
+  // Pre-set of Left Entrance
   private void setLeft(int givenPos){
-    if(givenPos < 70 && givenPos >= 1){
-      this.isEnter = true;
+    if(givenPos < 70 && givenPos >= 1 && this.isExit){
+      this.isEnter = false;
       this.isExit = false;
     }
-    else if(givenPos > 175){
-      this.isExit = true;
+    else if(givenPos > 180 && this.isEnter){
+      this.isExit = false;
       this.isEnter = false;
+    }
+    else if(givenPos < 70 && givenPos >= 1){
+      this.isEnter = true;
+      this.isExit = false;
+      this.onlyOnce = false;
+    }
+    else if(givenPos > 180){
+      this.isEnter = false;
+      this.isExit = true;
+      this.onlyOnce = false;
+    }
+  }
+  private void setRight(int givenPos){
+    if(givenPos < 70 && givenPos >= 1 && this.isEnter){
+      this.isEnter = false;
+      this.isExit = false;
+    }
+    else if(givenPos > 180 && this.isExit){
+      this.isExit = false;
+      this.isEnter = false;
+    }
+    else if(givenPos < 70 && givenPos >= 1){
+      this.isEnter = false;
+      this.isExit = true;
+      this.onlyOnce = false;
+    }
+    else if(givenPos > 180){
+      this.isEnter = true;
+      this.isExit = false;
+      this.onlyOnce = false;
     }
   }
 
   // @@@ counting people using detectPos @@@
-  private void leftCount(int givenPos){
-    if(this.isEnter){
-      if(givenPos >= 120 && givenPos < 170 ){
+  private void countPeople(int givenPos){
+    // Enter
+    if((!this.onlyOnce) &&  this.isEnter){
+      if(givenPos >= 100 && givenPos < 150 ){
         // Enter shop
+        System.out.println("Enter: ");
         System.out.println(givenPos);
+        if()
         testCurrent+=1;
         System.out.println(testCurrent);
-        //ipGlobal.setCurrent(ipGlobal.getCurrent()+1);
-        //System.out.println(ipGlobal.getCurrent());
-        this.isEnter = false;
-        this.isExit = false;
+        this.onlyOnce = true;
       }
     }
-//    else if(!this.isEnter && this.isExit){
-//      if(givenPos <= 30 && givenPos > 60){
-//        // Exit shop
-//        System.out.println(givenPos);
-//        testCurrent-=1;
-//        System.out.println(testCurrent);
-//        this.isExit = false;
-//        this.isEnter = false;
-//      }
-//    }
+    // Exit
+    else if((!this.onlyOnce) &&  this.isExit ){
+      if(givenPos > 100 && givenPos <= 150){
+        // Exit shop
+        if(testCurrent <= 0){
+          System.out.println("shop is empty");
+        }
+        else {
+          System.out.print("Exit: ");
+          System.out.println(givenPos);
+          //testCurrent-=1;
+          System.out.println(testCurrent);
+          this.onlyOnce = true;
+        }
+      }
+    }
   }
 
   @Override
