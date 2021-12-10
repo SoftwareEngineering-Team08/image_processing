@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="business_type_array">
+
+        <item>RESTAURANT</item>
+        <item>ACADEMY</item>
+        <item>GYM</item>
+        <item>BAR</item>
+        <item>HOTEL</item>
+
+    </string-array>
+</resources>

@@ -54,6 +54,9 @@
         <action
             android:id="@+id/action_myPage_to_editStore"
             app:destination="@id/editStore" />
+        <action
+            android:id="@+id/action_myPage_to_addShopPage"
+            app:destination="@id/addShopPage" />
     </fragment>
     <fragment
         android:id="@+id/editStore"
@@ -83,4 +86,9 @@
             android:id="@+id/action_selectPrimaryShop_to_mainMenu"
             app:destination="@id/mainMenu" />
     </fragment>
+    <fragment
+        android:id="@+id/addShopPage"
+        android:name="org.tensorflow.lite.examples.detection.coronaCounter.view.AddShopPage"
+        android:label="fragment_add_shop_page"
+        tools:layout="@layout/fragment_add_shop_page" />
 </navigation>

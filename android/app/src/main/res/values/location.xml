@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="location_array">
+        <item>Seoul</item>
+        <item>Daejeon</item>
+        <item>Daegu</item>
+        <item>Busan</item>
+        <item>Gwangju</item>
+        <item>Ulsan</item>
+        <item>Jeju</item>
+
+    </string-array>
+</resources>

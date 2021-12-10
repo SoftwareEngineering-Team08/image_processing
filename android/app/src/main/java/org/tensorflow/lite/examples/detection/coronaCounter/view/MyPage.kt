@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import org.tensorflow.lite.R
 import com.example.coronacounter.adapter.ShopItemAdapter
@@ -65,6 +66,9 @@ class MyPage : Fragment() {
         addShopButton = binding.addShopButton
         addShopButton.setOnClickListener {
             Log.d(TAG, "addShopButton Clicked")
+            val action = MyPageDirections.actionMyPageToAddShopPage()
+            view.findNavController().navigate(action)
+            Log.d(TAG,"addShopButtonClicked")
             // TODO
             // 샵 추가 페이지로 이동
             // 샵추가로직 addshop
